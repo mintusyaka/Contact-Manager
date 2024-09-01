@@ -1,8 +1,53 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<Contact>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+	<div class="row pt-4">
+		<div class="col-6 ">
+			<h3>Contact Table</h3>
+		</div>
+		<div class="col-6 text-end">
+			<div class="row">
+				<form method="post" enctype="multipart/form-data">	
+					<input type="file" class="small" name="file"/>
+					<input asp-controller="Home" asp-action="ReadCSV" type="submit" class="btn btn-outline-dark" value="Read CSV"/>
+				</form>
+			
+				<a asp-controller="Home" asp-action="Add" class="btn btn-outline-dark"><i class="bi bi-plus-circle"></i> Add new contact</a>
+			</div>
+		</div>
+	</div>
 </div>
+	
+<table class="table-bordered text-center mx-auto m-4">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Birthday</th>
+			<th>Married</th>
+			<th>Phone</th>
+			<th>Salary</th>
+			<th>Edit/Delete</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach(var obj in Model) {
+			<tr>
+				<td>@obj.Name</td>
+				<td>@obj.Birthday.ToString("d")</td>
+				@if (obj.Married)
+				{
+					<td>Married</td>
+				}
+				else
+				{
+					<td>Not married</td>
+				}
+				<td>@obj.Phone</td>
+				<td>@obj.Salary $</td>
+				<td>
+
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
