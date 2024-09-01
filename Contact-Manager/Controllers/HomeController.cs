@@ -22,13 +22,39 @@ namespace Contact_Manager.Controllers
             return View(_db.Contacts.ToList());
         }
 
-        public IActionResult Add()
+        public IActionResult AddContact()
         {
             return View();
         }
 
-        [HttpPost]
-		public IActionResult Add(Contact newContact)
+        public IActionResult EditContact(int? Id)
+        {
+            if (Id == null)
+                return NotFound();
+
+            Contact? contact = _db.Contacts.Find(Id);
+
+            if (contact == null)
+                return NotFound();
+
+            return View(contact);
+        }
+
+		public IActionResult RemoveContact(int? Id)
+		{
+            if (Id == null)
+                return NotFound();
+
+            Contact? contact = _db.Contacts.Find(Id);
+
+            if (contact == null)
+                return NotFound();
+
+            return View(contact);
+		}
+
+		[HttpPost]
+		public IActionResult AddContact(Contact newContact)
 		{
             if (ModelState.IsValid)
             {
@@ -39,6 +65,29 @@ namespace Contact_Manager.Controllers
             
 			return View(newContact);
 		}
+
+        [HttpPost]
+        public IActionResult EditContact(Contact contactToEdit)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Contacts.Update(contactToEdit);
+                _db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(contactToEdit);
+
+        }
+
+        [HttpPost]
+        public IActionResult RemoveContact(Contact contactToEdit)
+        {
+            _db.Contacts.Remove(contactToEdit);
+            _db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> ReadCSV(IFormFile file)
@@ -83,7 +132,7 @@ namespace Contact_Manager.Controllers
                                 Salary = decimal.Parse(separatedFields[4])
                             };
 
-                            Add(newContact);
+                            AddContact(newContact);
 
                         }
                     }

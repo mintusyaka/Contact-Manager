@@ -12,13 +12,13 @@
 					<input asp-controller="Home" asp-action="ReadCSV" type="submit" class="btn btn-outline-dark" value="Read CSV"/>
 				</form>
 			
-				<a asp-controller="Home" asp-action="Add" class="btn btn-outline-dark"><i class="bi bi-plus-circle"></i> Add new contact</a>
+				<a asp-controller="Home" asp-action="AddContact" class="btn btn-outline-dark"><i class="bi bi-plus-circle"></i> Add new contact</a>
 			</div>
 		</div>
 	</div>
 </div>
 	
-<table class="table-bordered text-center mx-auto m-4">
+<table class="table-bordered text-center mx-auto m-4 fs-5" id="contactTable">
 	<thead>
 		<tr>
 			<th>Name</th>
@@ -45,7 +45,10 @@
 				<td>@obj.Phone</td>
 				<td>@obj.Salary $</td>
 				<td>
-
+					<div>
+						<a asp-controller="Home" asp-action="EditContact" asp-route-id="@obj.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>
+						<a asp-controller="Home" asp-action="RemoveContact" asp-route-id="@obj.Id" class="btn btn-danger mx-2"><i class="bi bi-person-dash"></i></a>
+					</div>
 				</td>
 			</tr>
 		}
