@@ -12,7 +12,7 @@
 					<input asp-controller="Home" asp-action="ReadCSV" type="submit" class="btn btn-outline-dark" value="Read CSV"/>
 				</form>
 			
-				<a asp-controller="Home" asp-action="AddContact" class="btn btn-outline-dark"><i class="bi bi-plus-circle"></i> Add new contact</a>
+				<a asp-controller="Home" asp-action="AddUser" class="btn btn-outline-dark"><i class="bi bi-plus-circle"></i> Add new contact</a>
 			</div>
 		</div>
 	</div>
@@ -21,29 +21,18 @@
 <table class="table-bordered text-center mx-auto m-4 fs-5" id="contactTable">
 	<thead>
 		<tr>
-			<th>Name</th>
-			<th>Birthday</th>
-			<th>Married</th>
 			<th>Phone</th>
-			<th>Salary</th>
+			<th>Operator</th>
+			<th>Description</th>
 			<th>Edit/Delete</th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach(var obj in Model) {
 			<tr>
-				<td>@obj.Name</td>
-				<td>@obj.Birthday.ToString("d")</td>
-				@if (obj.Married)
-				{
-					<td>Married</td>
-				}
-				else
-				{
-					<td>Not married</td>
-				}
 				<td>@obj.Phone</td>
-				<td>@obj.Salary $</td>
+				<td>@obj.Operator.ToString()</td>
+				<td>@obj.Description</td>
 				<td>
 					<div>
 						<a asp-controller="Home" asp-action="EditContact" asp-route-id="@obj.Id" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i></a>

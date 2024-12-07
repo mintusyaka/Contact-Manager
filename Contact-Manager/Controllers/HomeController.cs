@@ -27,7 +27,12 @@ namespace Contact_Manager.Controllers
             return View();
         }
 
-        public IActionResult EditContact(int? Id)
+		public IActionResult AddUser()
+		{
+			return View();
+		}
+
+		public IActionResult EditContact(int? Id)
         {
             if (Id == null)
                 return NotFound();
@@ -56,17 +61,23 @@ namespace Contact_Manager.Controllers
 		[HttpPost]
 		public IActionResult AddContact(Contact newContact)
 		{
-            if (ModelState.IsValid)
-            {
+                newContact.User = _db.Users.OrderByDescending(x => x.Id).FirstOrDefault();
+			    newContact.UserId = newContact.User.Id;
                 _db.Contacts.Add(newContact);
+                _db.Users.OrderByDescending(x => x.Id).FirstOrDefault().Contact = newContact;
                 _db.SaveChanges();  
                 return RedirectToAction("Index", "Home");
-            }
-            
-			return View(newContact);
 		}
 
         [HttpPost]
+		public IActionResult AddUser(User user)
+		{
+			_db.Users.Add(user);
+			_db.SaveChanges();
+			return RedirectToAction("AddContact", "Home");
+		}
+
+		[HttpPost]
         public IActionResult EditContact(Contact contactToEdit)
         {
             if (ModelState.IsValid)
@@ -121,15 +132,31 @@ namespace Contact_Manager.Controllers
                     foreach (string s in separatedRows)
                     {
                         string[] separatedFields = s.Split(';');
-                        if (separatedFields.Length == 5)
+
+                        OperatorType op = OperatorType.Lycamobile;
+                        switch(separatedFields[1])
+                        {
+                            case "Kyivstar":
+                                op = OperatorType.Kyivstar;
+                                break;
+                            case "Vodafone":
+                                op = OperatorType.Vodafone;
+                                break;
+                            case "Lycamobile":
+                                op = OperatorType.Lycamobile;
+                                break;
+                            case "Lifecell": 
+                                op = OperatorType.Lifecell;
+                                break;
+						}
+
+                        if (separatedFields.Length == 3)
                         {
                             Contact newContact = new Contact
                             {
-                                Name = separatedFields[0],
-                                Birthday = DateTime.Parse(separatedFields[1]),
-                                Married = bool.Parse(separatedFields[2]),
-                                Phone = separatedFields[3],
-                                Salary = decimal.Parse(separatedFields[4])
+                                Phone = separatedFields[0],
+                                Operator = op,
+                                Description = separatedFields[2]
                             };
 
                             AddContact(newContact);

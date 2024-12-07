@@ -8,19 +8,24 @@ namespace Contact_Manager.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Contact> Contacts { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Contact>().HasData(
 				new Contact { 
                     Id = 1,
-                    Name = "Steven",
-                    Birthday = new DateTime(2005, 10, 1),
-                    Married = false,
                     Phone = "0938265605",
-                    Salary = 1000.0M
+                    Operator = OperatorType.Kyivstar,
+                    Description = ""
                 }
 				);
+
+            modelBuilder.Entity<User>()
+                .HasOne(e => e.Contact)
+                .WithOne(e => e.User)
+                .HasForeignKey<Contact>(e => e.UserId)
+                .IsRequired();
 		}
 
     }

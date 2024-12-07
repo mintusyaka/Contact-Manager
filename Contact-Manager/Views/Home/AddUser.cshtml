@@ -1,0 +1,41 @@
+﻿	@model User
+
+<form method="post">
+	<div class="border p-3 mt-4 bg-gradient">
+		<div class="row pb-2">
+			<h3>
+				Adding user
+			</h3>
+			<hr />
+		</div>
+
+		<div>
+			<div class="row m-2">
+				<label asp-for="Name" class=""></label>
+				<input asp-for="Name" type="text" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+
+			<div class="row m-2">
+				<label asp-for="Email" class=""></label>
+				<input asp-for="Email" type="text" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+
+			<div class="row m-2">
+				<label asp-for="Password" class=""></label>
+				<input asp-for="Password" type="text" class="form-control" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
+
+			<div class="row mx-auto">
+				<div class="col-6 mx-auto">
+					<button type="submit" class="btn btn-primary m-1 mt-2 form-control">Create</button>
+				</div>
+				<div class="col-6 mx-auto">
+					<a asp-controller="Home" asp-action="Index" class="btn btn-secondary m-1 mt-2 form-control"><i class="bi bi-arrow-return-left"></i>Back to Contact List</a>
+				</div>
+			</div>
+
+		</div>
+</form>
